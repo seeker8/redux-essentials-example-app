@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { useEffect } from 'react';
 import { SinglePostPage } from './features/posts/SinglePostPage';
 import { PostMainPage } from './features/posts/PostMainPage';
+import { EditPostForm } from './features/posts/EditPostForm';
 
 function App() {
   useEffect(() => console.log('app render'))
@@ -21,6 +22,10 @@ function App() {
           <Route
             path='/posts/:postId'
             element={<SinglePostPage />}
+          ></Route>
+          <Route
+            path='/editPost/:postId'
+            element={<EditPostForm />}
           ></Route>
         </Routes>
       </div>
