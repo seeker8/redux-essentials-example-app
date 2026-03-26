@@ -18,9 +18,16 @@ export const postsSlice = createSlice({
   reducers: {
     postAdded(state, action: PayloadAction<Post>) {
       state.push(action.payload);
+    },
+    postUpdated(state, action: PayloadAction<Post>) {
+      const existingPost = state.find(post => post.id === action.payload.id);
+      if (existingPost) {
+        existingPost.content = action.payload.content;
+        existingPost.title = action.payload.title;
+      }
     }
   }
 });
 
-export const { postAdded } = postsSlice.actions;
+export const { postAdded, postUpdated } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;
