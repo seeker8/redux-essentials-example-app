@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/app/hooks";
 import { useParams } from "react-router-dom"
 
-export SinglePostPage = () => {
+export const SinglePostPage = () => {
   const { postId } = useParams();
 
   const post = useAppSelector(state =>
