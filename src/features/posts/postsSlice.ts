@@ -14,7 +14,7 @@ export interface Post {
 
 const initialState: Post[] = [
   { id: '1', title: 'First Post', content: 'Hello', user: '0', date: sub(new Date(), { minutes: 10 }).toISOString() },
-  { id: '2', title: 'Second Post', content: 'More text', user: '1', date: sub(new Date(), { minutes: 10 }).toISOString() }
+  { id: '2', title: 'Second Post', content: 'More text', user: '1', date: sub(new Date(), { minutes: 5 }).toISOString() }
 ];
 
 export const postsSlice = createSlice({
