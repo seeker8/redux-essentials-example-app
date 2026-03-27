@@ -5,11 +5,13 @@ import { selectPostById } from './postsSlice';
 import { PostAuthor } from '../users/PostAuthor';
 import { TimeAgo } from '@/components/TimeAgo';
 import { ReactionButtons } from './ReactonButtons';
+import { selectCurrentUser } from '../users/usersSlice';
 
 export const SinglePostPage = () => {
   const { postId } = useParams();
 
   const post = useAppSelector((state) => selectPostById(state, postId!));
+  const user = useAppSelector(selectCurrentUser)!;
 
   if (!post) {
     return (
@@ -18,6 +20,8 @@ export const SinglePostPage = () => {
       </section>
     )
   }
+
+  const canEdit = user.id === post.user;
 
   return (
     <section>
@@ -28,7 +32,7 @@ export const SinglePostPage = () => {
         <TimeAgo timestamp={post.date} />
         <ReactionButtons post={post} />
         <br />
-        <Link to={`/editPost/${post.id}`}>Edit Post</Link>
+        {canEdit && <Link to={`/editPost/${post.id}`}>Edit Post</Link>}
       </article>
     </section>
   )

@@ -14,6 +14,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (!username) {
     return <Navigate to="/" replace />
   }
+
+  return children;
 }
 
 
@@ -36,9 +38,11 @@ function App() {
             path='/*'
             element={
               <ProtectedRoute>
-                <Route path="/posts" element={<PostMainPage />}></Route>
-                <Route path='/posts/:postId' element={<SinglePostPage />}></Route>
-                <Route path='/editPost/:postId' element={<EditPostForm />} ></Route>
+                <Routes>
+                  <Route path="/posts" element={<PostMainPage />}></Route>
+                  <Route path='/posts/:postId' element={<SinglePostPage />}></Route>
+                  <Route path='/editPost/:postId' element={<EditPostForm />} ></Route>
+                </Routes>
               </ProtectedRoute>
             }></Route>
         </Routes>

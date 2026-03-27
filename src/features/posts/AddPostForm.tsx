@@ -13,8 +13,8 @@ interface AddPostFormElements extends HTMLFormElement {
 
 export const AddPostForm = () => {
   const dispatch = useAppDispatch();
-  const username = useAppSelector(selectCurrentUsername);
-  const user = useAppSelector(state => state.users.find(user => user.name === username))
+  const userId = useAppSelector(selectCurrentUsername);
+  const user = useAppSelector(state => state.users.find(user => user.name === userId))
 
   const handleSubmit = (e: React.FormEvent<AddPostFormElements>) => {
     e.preventDefault();
