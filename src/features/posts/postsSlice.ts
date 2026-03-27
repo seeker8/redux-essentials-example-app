@@ -4,17 +4,40 @@ import { sub } from 'date-fns';
 import { RootState } from "@/app/store";
 
 type PostUpdate = Pick<Post, 'id' | 'title' | 'content'>
+
+interface Reactions {
+  thumbsUp: number,
+  tada: number,
+  heart: number,
+  rocket: number,
+  eyes: number
+}
+
+export type ReactionName = keyof Reactions;
 export interface Post {
   id: string,
   user: string,
   title: string,
   content: string,
-  date: string
+  date: string,
+  reactions: Reactions
+}
+
+const initialReactions: Reactions = {
+  thumbsUp: 0,
+  tada: 0,
+  heart: 0,
+  rocket: 0,
+  eyes: 0
 }
 
 const initialState: Post[] = [
-  { id: '1', title: 'First Post', content: 'Hello', user: '0', date: sub(new Date(), { minutes: 10 }).toISOString() },
-  { id: '2', title: 'Second Post', content: 'More text', user: '1', date: sub(new Date(), { minutes: 5 }).toISOString() }
+  {
+    id: '1', title: 'First Post', content: 'Hello', user: '0', date: sub(new Date(), { minutes: 10 }).toISOString(), reactions: initialReactions
+  },
+  {
+    id: '2', title: 'Second Post', content: 'More text', user: '1', date: sub(new Date(), { minutes: 5 }).toISOString(), reactions: initialReactions
+  }
 ];
 
 export const postsSlice = createSlice({
@@ -27,7 +50,7 @@ export const postsSlice = createSlice({
       },
       prepare(title: string, content: string, userId: string) {
         return {
-          payload: { id: nanoid(), title, content, user: userId, date: new Date().toISOString() }
+          payload: { id: nanoid(), title, content, user: userId, date: new Date().toISOString(), reactions: initialReactions }
         };
       }
     },
@@ -37,11 +60,18 @@ export const postsSlice = createSlice({
         existingPost.content = action.payload.content;
         existingPost.title = action.payload.title;
       }
+    },
+    reactionAdded(state, action: PayloadAction<{ postId: string; reaction: ReactionName }>) {
+      const { postId, reaction } = action.payload;
+      const existingPost = state.find(post => post.id === postId);
+      if (existingPost) {
+        existingPost.reactions[reaction]++;
+      }
     }
   }
 });
 
-export const { postAdded, postUpdated } = postsSlice.actions;
+export const { postAdded, postUpdated, reactionAdded } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;
 
 // selector functions
