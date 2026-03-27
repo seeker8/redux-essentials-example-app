@@ -71,7 +71,7 @@ export const postsSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    builder.addCase(userLoggedOut, state => {
+    builder.addCase(userLoggedOut, () => {
       return [];
     });
   }
